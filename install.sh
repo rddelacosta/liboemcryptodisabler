@@ -180,14 +180,16 @@ mask_lib() {
   local mirror=/$MAGISKPATH/.magisk/mirror
   local so=liboemcrypto.so
 
-  for part in system vendor; do
+  for part in system odm vendor/odm; do
     for libdir in lib lib64; do
       if [ -s $mirror/$part/$libdir/$so ]; then
 	size=$(ls -l $mirror/$part/$libdir/$so | awk '{print $5}')
         ui_print "- Found /$part/$libdir/$so, which is $size bytes."
         ui_print "-   Neutralising..."
-	if [ $part = vendor ]; then
-	  instdir=system/vendor
+	if [ $part = odm ]; then
+	  instdir=system/odm
+	if [ $part = vendor/odm ]; then
+	  instdir=system/vendor/odm
 	else
 	  instdir=$part
 	fi
